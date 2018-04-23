@@ -144,6 +144,22 @@ module.exports = function(
   const displayedCommand = useYarn ? 'yarn' : 'npm';
 
   console.log();
+
+  console.log(chalk.red('VERY IMPORTANT:'));
+  console.log(`
+    You'll need to make the following changes before proceeding:
+    1. Makefile
+      * Update BERLIOZ_NAME and CONDUCTOR_APP_ID
+    2. CODEOWNERS
+      * Add owners to your repo
+    3. .circleci/config.yml
+      * Update defaults.working_directory
+      * Update jobs.deploy_staging.attach_workspace.at
+    4. .env.{environment}
+      * add variables as necessary
+  `);
+  console.log();
+
   console.log(`Success! Created ${appName} at ${appPath}`);
   console.log('Inside that directory, you can run several commands:');
   console.log();
