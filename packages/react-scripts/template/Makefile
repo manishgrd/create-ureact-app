@@ -8,12 +8,9 @@ VERSION           ?= $(shell git rev-parse --short HEAD)
 CONDUCTOR_APP_ID  := 2f0a177e-3e8b-11e8-9ac6-737d2e5ac4e9
 export
 
-.PHONY: all build deploy docker deploy-staging deploy-preview
+.PHONY: all deploy docker deploy-staging deploy-preview
 
 all: docker
-
-build:
-	ENV=$(BUILD_ENV) gulp build
 
 docker:
 	docker build -t $(SERVICE_NAME) .

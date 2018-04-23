@@ -5,19 +5,17 @@ import './App.css';
 class App extends Component {
 
   getEnvValues() {
-    if (!process.env.REACT_APP_SERVER_URL) {
-      throw new Error('Please define `REACT_APP_SERVER_URL` in your .env file');
+    if (!process.env.REACT_APP_ENV) {
+      throw new Error('Please define `REACT_APP_ENV` in your .env file');
     }
 
-    const serverUrl = process.env.REACT_APP_SERVER_URL
+    const appEnv = process.env.REACT_APP_ENV
 
-    return { serverUrl };
+    return { appEnv };
   }
 
   render() {
-
-    const { serverUrl } = this.getEnvValues();
-
+    const {appEnv} = this.getEnvValues()
     return (
       <div className="App">
         <div className="App-header">
@@ -25,8 +23,7 @@ class App extends Component {
           <h2>Welcome to Create UReact App</h2>
         </div>
         <p className="App-intro">
-           <b> Node ENV: { process.env.NODE_ENV } </b><br/><br/>
-           <b> Server URL: { serverUrl} </b>
+           <b> react_app_env: {appEnv} </b><br/><br/>
         </p>
       </div>
     );

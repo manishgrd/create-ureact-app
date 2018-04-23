@@ -39,6 +39,12 @@ module.exports = function(
   appPackage.scripts = {
     start: 'react-scripts start',
     build: 'react-scripts build',
+    "build:staging":
+      "cp ./config/.env.staging ./.env.production && yarn build",
+    "build:preview":
+      "cp ./config/.env.preview ./.env.production && yarn build",
+    "build:production":
+      "cp ./config/.env.production ./.env.production && yarn build",
     test: 'react-scripts test --env=jsdom',
     eject: 'react-scripts eject',
   };
