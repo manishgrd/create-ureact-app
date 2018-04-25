@@ -94,6 +94,10 @@ module.exports = function(
   appPackage.scripts = {
     start: 'react-scripts start',
     build: 'react-scripts build',
+    'build:staging': 'cp ./config/.env.staging ./.env.production && yarn build',
+    'build:preview': 'cp ./config/.env.preview ./.env.production && yarn build',
+    'build:production':
+      'cp ./config/.env.production ./.env.production && yarn build',
     test: 'react-scripts test --env=jsdom',
     eject: 'react-scripts eject',
   };
@@ -205,6 +209,22 @@ module.exports = function(
   const displayedCommand = useYarn ? 'yarn' : 'npm';
 
   console.log();
+
+  console.log(chalk.red('VERY IMPORTANT:'));
+  console.log(`
+    You'll need to make the following changes before proceeding:
+    1. Makefile
+      * Update BERLIOZ_NAME and CONDUCTOR_APP_ID
+    2. CODEOWNERS
+      * Add owners to your repo
+    3. .circleci/config.yml
+      * Update defaults.working_directory
+      * Update jobs.deploy_staging.attach_workspace.at
+    4. .env.{environment}
+      * add variables as necessary
+  `);
+  console.log();
+
   console.log(`Success! Created ${appName} at ${appPath}`);
   console.log('Inside that directory, you can run several commands:');
   console.log();

@@ -3,7 +3,19 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  getEnvValues() {
+    if (!process.env.REACT_APP_ENV) {
+      throw new Error('Please define `REACT_APP_ENV` in your .env file');
+    }
+
+    const appEnv = process.env.REACT_APP_ENV;
+
+    return { appEnv };
+  }
+
   render() {
+    const { appEnv } = this.getEnvValues();
+
     return (
       <div className="App">
         <header className="App-header">
@@ -11,14 +23,9 @@ class App extends Component {
           <p>
             Edit <code>src/App.js</code> and save to reload.
           </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <p className="App-intro">
+            <b> react_app_env: {appEnv} </b>
+          </p>
         </header>
       </div>
     );
