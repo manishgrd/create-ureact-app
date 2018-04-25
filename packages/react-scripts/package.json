@@ -1,6 +1,6 @@
 {
   "name": "@udacity/react-scripts",
-  "version": "2.0.3",
+  "version": "2.0.9",
   "description": "Udacity configuration and scripts for Create React App.",
   "repository": "https://github.com/udacity/create-react-app",
   "license": "MIT",

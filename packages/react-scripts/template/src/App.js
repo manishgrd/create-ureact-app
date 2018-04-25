@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import styles from './App.module.scss';
 
 class App extends Component {
   getEnvValues() {
@@ -17,13 +17,13 @@ class App extends Component {
     const { appEnv } = this.getEnvValues();
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+      <div className={styles.App}>
+        <header className={styles.header}>
+          <img src={logo} className={styles.logo} alt="logo" />
           <p>
             Edit <code>src/App.js</code> and save to reload.
           </p>
-          <p className="App-intro">
+          <p className={styles.intro}>
             <b> react_app_env: {appEnv} </b>
           </p>
         </header>

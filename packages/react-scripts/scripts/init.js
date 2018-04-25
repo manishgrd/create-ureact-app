@@ -190,6 +190,27 @@ module.exports = function(
     }
   }
 
+  // Install node-sass as devDependency for sass support
+
+  console.log(`Installing node-sass using ${command}...`);
+  console.log();
+
+  if (useYarn) {
+    command = 'yarnpkg';
+    args = ['add', '--dev'];
+  } else {
+    command = 'npm';
+    args = ['install', '--save-dev', verbose && '--verbose'].filter(e => e);
+  }
+
+  args.push('node-sass');
+
+  const proc = spawn.sync(command, args, { stdio: 'inherit' });
+  if (proc.status !== 0) {
+    console.error(`\`${command} ${args.join(' ')}\` failed`);
+    return;
+  }
+
   if (tryGitInit(appPath)) {
     console.log();
     console.log('Initialized a git repository.');
