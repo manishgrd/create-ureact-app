@@ -99,7 +99,7 @@ module.exports = function(
     'build:production':
       'cp ./config/.env.production ./.env.production && yarn build',
     test: 'react-scripts test --env=jsdom',
-    eject: 'react-scripts eject',
+    precommit: 'lint-staged',
   };
 
   appPackage.browserslist = defaultBrowsers;
@@ -166,7 +166,8 @@ module.exports = function(
     appPath,
     '.template.dependencies.json'
   );
-  if (fs.existsSync(templateDependenciesPath)) {
+  const hasTemplateDependencies = fs.existsSync(templateDependenciesPath);
+  if (hasTemplateDependencies) {
     const templateDependencies = require(templateDependenciesPath).dependencies;
     args = args.concat(
       Object.keys(templateDependencies).map(key => {
@@ -179,7 +180,7 @@ module.exports = function(
   // Install react and react-dom for backward compatibility with old CRA cli
   // which doesn't install react and react-dom along with react-scripts
   // or template is presetend (via --internal-testing-template)
-  if (!isReactInstalled(appPackage) || template) {
+  if (!isReactInstalled(appPackage) || template || hasTemplateDependencies) {
     console.log(`Installing react and react-dom using ${command}...`);
     console.log();
 
@@ -188,27 +189,6 @@ module.exports = function(
       console.error(`\`${command} ${args.join(' ')}\` failed`);
       return;
     }
-  }
-
-  // Install node-sass as devDependency for sass support
-
-  console.log(`Installing node-sass using ${command}...`);
-  console.log();
-
-  if (useYarn) {
-    command = 'yarnpkg';
-    args = ['add', '--dev'];
-  } else {
-    command = 'npm';
-    args = ['install', '--save-dev', verbose && '--verbose'].filter(e => e);
-  }
-
-  args.push('node-sass');
-
-  const proc = spawn.sync(command, args, { stdio: 'inherit' });
-  if (proc.status !== 0) {
-    console.error(`\`${command} ${args.join(' ')}\` failed`);
-    return;
   }
 
   if (tryGitInit(appPath)) {
