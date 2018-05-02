@@ -1,6 +1,6 @@
 {
   "name": "@udacity/react-scripts",
-  "version": "2.0.15",
+  "version": "2.0.17",
   "description": "Udacity configuration and scripts for Create React App.",
   "repository": "https://github.com/udacity/create-react-app",
   "license": "MIT",
@@ -10,7 +10,13 @@
   "bugs": {
     "url": "https://github.com/facebook/create-react-app/issues"
   },
-  "files": ["bin", "config", "scripts", "template", "utils"],
+  "files": [
+    "bin",
+    "config",
+    "scripts",
+    "template",
+    "utils"
+  ],
   "bin": {
     "react-scripts": "./bin/react-scripts.js"
   },
@@ -78,6 +84,11 @@
       "last 2 firefox versions",
       "last 2 edge versions"
     ],
-    "production": [">1%", "last 4 versions", "Firefox ESR", "not ie < 11"]
+    "production": [
+      ">1%",
+      "last 4 versions",
+      "Firefox ESR",
+      "not ie < 11"
+    ]
   }
 }

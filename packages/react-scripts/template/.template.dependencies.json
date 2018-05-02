@@ -3,6 +3,8 @@
     "node-sass": "latest",
     "prettier": "latest",
     "husky": "latest",
-    "lint-staged": "latest"
+    "lint-staged": "latest",
+    "enzyme": "latest",
+    "enzyme-adapter-react-16": "latest"
   }
 }
