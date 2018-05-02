@@ -5,6 +5,7 @@
     "husky": "latest",
     "lint-staged": "latest",
     "enzyme": "latest",
-    "enzyme-adapter-react-16": "latest"
+    "enzyme-adapter-react-16": "latest",
+    "@udacity/veritas-components": "latest"
   }
 }
