@@ -1,0 +1,145 @@
+defaults: &defaults
+  docker:
+    - image: circleci/node:8.11-browsers
+  working_directory: ~/create-ureact-app
+
+version: 2
+jobs:
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: &cache_key dependency-cache-{{ checksum "package.json" }}
+      - run: &install_dependencies
+          name: Installing dependencies with `npm install`
+          command: npm install
+      - save_cache:
+          key: *cache_key
+          paths:
+            - ./node_modules
+      - run:
+          name: Running tests
+          command: npm run test
+
+  build_staging:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: *cache_key
+      - run: *install_dependencies
+      - run:
+          name: Building application with `npm run build:staging`
+          command: npm run build:staging
+      - persist_to_workspace: &persist_workspace
+          root: .
+          paths:
+            - '*'
+  build_production:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: *cache_key
+      - run: *install_dependencies
+      - run:
+          name: Building application with `npm run build:production`
+          command: npm run build:production
+      - persist_to_workspace: *persist_workspace
+  build_preview:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: *cache_key
+      - run: *install_dependencies
+      - run:
+          name: Building application with `npm run build:preview`
+          command: npm run build:preview
+      - persist_to_workspace: *persist_workspace
+
+
+  # Main deployments
+  deploy_stage:
+    <<: *defaults
+    steps:
+      - setup_remote_docker: &remote_docker
+          docker_layer_caching: true
+      - attach_workspace: &attach_workspace
+          at: ~/create-ureact-app
+      - run: &auth_docker_hub
+          name: Logging into Docker Hub
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run:
+          name: Deploying application with `make deploy-staging`
+          command: make deploy-staging
+  deploy_production:
+    <<: *defaults
+    steps:
+      - setup_remote_docker: *remote_docker
+      - attach_workspace: *attach_workspace
+      - run: *auth_docker_hub
+      - run:
+          name: Deploying application with `make deploy`
+          command: make deploy
+  deploy_preview:
+    <<: *defaults
+    steps:
+      - setup_remote_docker: *remote_docker
+      - attach_workspace: *attach_workspace
+      - run: *auth_docker_hub
+      - run:
+          name: Deploying application with `make deploy-preview`
+          command: make deploy-preview
+
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - test:
+          context: org-global
+      - build_staging:
+          context: org-global
+          filters:
+            branches:
+              ignore:
+                - production
+                - mentor
+      - build_production:
+          context: org-global
+          filters: &filter_production
+            branches:
+              only:
+                - production
+      - build_preview:
+          context: org-global
+          filters: &filter_preview
+            branches:
+              only:
+                - /^.*--preview$/
+
+      # Main deployments
+      - deploy_stage:
+          context: org-global
+          requires:
+            - test
+            - build_staging
+          filters:
+            branches:
+              only:
+                - master
+                - /^.*--autostage$/
+      - deploy_production:
+          context: org-global
+          requires:
+            - test
+            - build_production
+          filters: *filter_production
+      - deploy_preview:
+          context: org-global
+          requires:
+            - test
+            - build_preview
+          filters: *filter_preview

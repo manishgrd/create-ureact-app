@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import '@udacity/veritas-components/dist/index.css';
+import App from 'app/app';
+import * as serviceWorker from './service-worker';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

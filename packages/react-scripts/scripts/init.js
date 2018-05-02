@@ -94,8 +94,12 @@ module.exports = function(
   appPackage.scripts = {
     start: 'react-scripts start',
     build: 'react-scripts build',
+    'build:staging': 'cp ./config/.env.staging ./.env.production && yarn build',
+    'build:preview': 'cp ./config/.env.preview ./.env.production && yarn build',
+    'build:production':
+      'cp ./config/.env.production ./.env.production && yarn build',
     test: 'react-scripts test --env=jsdom',
-    eject: 'react-scripts eject',
+    precommit: 'lint-staged',
   };
 
   appPackage.browserslist = defaultBrowsers;
@@ -162,7 +166,8 @@ module.exports = function(
     appPath,
     '.template.dependencies.json'
   );
-  if (fs.existsSync(templateDependenciesPath)) {
+  const hasTemplateDependencies = fs.existsSync(templateDependenciesPath);
+  if (hasTemplateDependencies) {
     const templateDependencies = require(templateDependenciesPath).dependencies;
     args = args.concat(
       Object.keys(templateDependencies).map(key => {
@@ -175,7 +180,7 @@ module.exports = function(
   // Install react and react-dom for backward compatibility with old CRA cli
   // which doesn't install react and react-dom along with react-scripts
   // or template is presetend (via --internal-testing-template)
-  if (!isReactInstalled(appPackage) || template) {
+  if (!isReactInstalled(appPackage) || template || hasTemplateDependencies) {
     console.log(`Installing react and react-dom using ${command}...`);
     console.log();
 
@@ -205,6 +210,7 @@ module.exports = function(
   const displayedCommand = useYarn ? 'yarn' : 'npm';
 
   console.log();
+
   console.log(`Success! Created ${appName} at ${appPath}`);
   console.log('Inside that directory, you can run several commands:');
   console.log();
