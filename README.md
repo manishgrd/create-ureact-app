@@ -2,9 +2,15 @@
 Guide for Udacity fork of [facebook/create-react-app](https://github.com/facebook/create-react-app). The main [CRA User Guide](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md) is a great place to start if you're unfamiliar with CRA. See documentation below for getting started and major additions/changes.
 
 ## To create a new app
-1. Run `create-react-app my-new-app-name --scripts-version @udacity/react-scripts --use-npm`
+1. Run `npx create-react-app my-new-app-name --scripts-version @udacity/react-scripts --use-npm`
 1. `cd my-new-app-name`
 1. `npm start`
+
+### Add git
+1. `cd` to your project directory
+1. `git init`
+1. `git remote add origin <gitLinkToYourRepo>`
+1. Continue as usual
 
 ## Development
 

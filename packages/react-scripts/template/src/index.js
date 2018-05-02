@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
+import '@udacity/veritas-components/dist/index.css';
 import App from 'app/app';
 import * as serviceWorker from './service-worker';
 

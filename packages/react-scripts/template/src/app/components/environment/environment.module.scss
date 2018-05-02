@@ -1,13 +1,14 @@
 .environment {
-  background: white;
-  border-radius: 10px;
-  border: 4px solid rgba(black, 0.75);
-  color: black;
-  text-align: left;
-  font-size: 1rem;
-  padding: 2rem;
   width: 100%;
-  max-width: 800px;
+  font-size: 1rem;
+
+  code {
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: left;
+    width: 100%;
+    max-width: 800px;
+  }
 
   ul {
     list-style: none;
